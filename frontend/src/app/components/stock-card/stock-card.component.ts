@@ -22,7 +22,7 @@ import { Stock } from '../../models/stock';
       </div>
       
       <div class="card-body">
-        <div class="price-container" [ngClass]="priceTrend()" aria-live="polite" [attr.aria-label]="'Current price of ' + stock().symbol + ' is ' + (stock().price | number:'1.2-2')">
+        <div class="price-container" aria-live="polite" [attr.aria-label]="'Current price of ' + stock().symbol + ' is ' + (stock().price | number:'1.2-2')">
           <span class="currency">$</span>
           <span class="price">{{ stock().price | number:'1.2-2' }}</span>
           
@@ -313,6 +313,7 @@ export class StockCardComponent {
     const pulse = this.pulseState() || '';
     if (!s.isActive) return { 'off': true };
     
+    // REQUIREMENT POINT 5: Base everything on session performance
     const trend = this.priceTrend();
     
     return {
@@ -326,13 +327,13 @@ export class StockCardComponent {
     };
   });
 
+  // Consolidated trend definition for Card Color, Price Color, and Arrow Direction
   priceTrend = computed(() => {
     const s = this.stock();
     if (!s.isActive || !s.sessionStartPrice) return '';
-    // Use a small epsilon to avoid flickering on tiny floating point differences
     const diff = s.price - s.sessionStartPrice;
-    if (diff > 0.0001) return 'up';
-    if (diff < -0.0001) return 'down';
+    if (diff > 0.001) return 'up';
+    if (diff < -0.001) return 'down';
     return '';
   });
 
