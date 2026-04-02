@@ -1,0 +1,12 @@
+/* Reset default browser styles that cause unnecessary scrollbars */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll from subtle animations */
+  background-color: #f5f5f7;
+}
+
+* {
+  box-sizing: border-box;
+}
